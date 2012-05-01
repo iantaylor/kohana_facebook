@@ -12,8 +12,8 @@ class Kohana_Facebook
 		include Kohana::find_file('vendor', 'facebook-sdk/src/facebook');
 
 		$this->_facebook = new Facebook(array(
-				'appId'		=> 	Kohana::$config->load('facebook.app_id'),
-				'secret'		=>	Kohana::$config->load('facebook.secret')
+				'appId'  => Kohana::$config->load('facebook.app_id'),
+				'secret' =>	Kohana::$config->load('facebook.secret')
 		));
 
 	}	
@@ -62,7 +62,7 @@ class Kohana_Facebook
 	public function postToTimeline ($message, $link)
 	{
 		$this->_facebook->api('/me/feed', 'POST',array(
-			'link' => $link,
+			'link'    => $link,
 			'message' => $message
 		));
 	}
@@ -73,19 +73,48 @@ class Kohana_Facebook
 	 * the Facebook Javascript SDK
 	 * @param  String $redirect URL to redirect the user back to after logging into facebook
 	 * @param  String $scope     Request permissions separated by a comma, ex: publish_strem
+	 * @param  String $doRedirect if true the user will automatically be redirected to the login url
 	 * 
+	 * @return String Login URL
 	 */
-	public function fbLogin ($redirect, $scope="")
+	public function fbLogin ($redirect, $scope="", $doRedirect=false)
 	{
-		$app_id = Kohana::$config->load('facebook.app_id');
 			
 		$params = array(
-		  'scope' => $scope,
-		  'redirect_uri' => $redirect
+			'scope'        => $scope,
+			'redirect_uri' => $redirect
 		);
 
-		Request::factory()->redirect($this->_facebook->getLoginUrl($params));
+		$login_url = $this->_facebook->getLoginUrl($params);
+
+		if($doRedirect)
+		{
+			Request::factory()->redirect($login_url);	
+		}
+		else
+		{
+			return $login_url;
+		}
+		
 	}
 
+	public function fbLogout ($redirect, $doRedirect=false)
+	{
+			
+		$params = array(
+			'next' => $redirect
+		);
 
+		$logout_url = $this->_facebook->getLogoutUrl($params);
+
+		if($doRedirect)
+		{
+			Request::factory()->redirect($logout_url);	
+		}
+		else
+		{
+			return $logout_url;
+		}
+		
+	}
 }
