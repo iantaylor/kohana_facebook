@@ -11,7 +11,6 @@ class Kohana_Facebook
 		//Include the required facebook vendor files
 		include Kohana::find_file('vendor', 'facebook-sdk/src/facebook');
 
-
 		$this->_facebook = new Facebook(array(
 				'appId'		=> 	Kohana::$config->load('facebook.app_id'),
 				'secret'		=>	Kohana::$config->load('facebook.secret')
@@ -63,7 +62,6 @@ class Kohana_Facebook
 	public function postToTimeline ($message, $link)
 	{
 		$this->_facebook->api('/me/feed', 'POST',array(
-
 			'link' => $link,
 			'message' => $message
 		));
