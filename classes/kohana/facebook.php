@@ -12,8 +12,8 @@ class Kohana_Facebook
 		include Kohana::find_file('vendor', 'facebook-sdk/src/facebook');
 
 		$this->_facebook = new Facebook(array(
-				'appId'  => Kohana::$config->load('facebook.app_id'),
-				'secret' =>	Kohana::$config->load('facebook.secret')
+				'appId'  => Kohana::config('facebook.app_id'),
+				'secret' =>	Kohana::config('facebook.secret')
 		));
 
 	}	
