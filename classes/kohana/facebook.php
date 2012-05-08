@@ -59,11 +59,12 @@ class Kohana_Facebook
 	 * @param  String $message Message to display
 	 * @param  String $link    Link to display
 	 */
-	public function postToTimeline ($message, $link)
+	public function postToTimeline ($message, $link, $description="")
 	{
 		$this->_facebook->api('/me/feed', 'POST',array(
 			'link'    => $link,
-			'message' => $message
+			'message' => $message,
+			'description'	=> $description
 		));
 	}
 
